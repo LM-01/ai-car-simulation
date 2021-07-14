@@ -9,6 +9,8 @@ import os
 import neat
 import pygame
 
+import pickle
+
 # Constants
 # WIDTH = 1600
 # HEIGHT = 880
@@ -177,7 +179,7 @@ def run_simulation(genomes, config):
     clock = pygame.time.Clock()
     generation_font = pygame.font.SysFont("Arial", 30)
     alive_font = pygame.font.SysFont("Arial", 20)
-    game_map = pygame.image.load('map.png').convert() # Convert Speeds Up A Lot
+    game_map = pygame.image.load('map6.png').convert() # Convert Speeds Up A Lot
 
     global current_generation
     current_generation += 1
@@ -258,4 +260,16 @@ if __name__ == "__main__":
     population.add_reporter(stats)
     
     # Run Simulation For A Maximum of 1000 Generations
-    population.run(run_simulation, 1000)
+    
+    winner = population.run(run_simulation, 50)	
+    print('Winner has emerged!')
+    print('Fitness ', winner.fitness)
+
+    # Save the model in a pickle file
+    filename = 'best_nn'
+    outfile = open(filename,'wb')
+    pickle.dump(winner, outfile)
+    outfile.close()
+
+
+
